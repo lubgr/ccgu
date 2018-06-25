@@ -1,23 +1,8 @@
 
-#include <chrono>
-#include <iostream>
 #include <cassert>
+#include "timemeasure.h"
 #include <boost/lexical_cast.hpp>
 #include "duplicate.h"
-
-template<class Fct, class Container> void measure(Fct&& f, Container& c, unsigned n)
-{
-    using clock = std::chrono::system_clock;
-    using ms = std::chrono::milliseconds;
-
-    const auto before = clock::now();
-
-    f(c, n);
-
-    const auto duration = std::chrono::duration_cast<ms>(clock::now() - before);
-
-    std::cout << "Duration " << duration.count()/1000.0 << "ms" << std::endl;
-}
 
 int main(int argc, char **argv)
 {
@@ -43,16 +28,16 @@ int main(int argc, char **argv)
 
     const auto orig = vec;
 
-    measure(duplicateInPlace1<int>, vec, n);
+    measure("version 1", duplicateInPlace1<vec::value_type>, vec, n);
 
     vec = orig;
-    measure(duplicateInPlace2<int>, vec, n);
+    measure("version 2", duplicateInPlace2<vec::value_type>, vec, n);
 
     vec = orig;
-    measure(duplicateInPlace3<int>, vec, n);
+    measure("version 3", duplicateInPlace3<vec::value_type>, vec, n);
 
-    // vec = orig;
-    // measure(duplicateInPlace4<int>, vec, n);
+    vec = orig;
+    measure("version 4", duplicateInPlace4<vec::value_type>, vec, n);
 
     return 0;
 }
