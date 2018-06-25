@@ -1,5 +1,5 @@
 
-add_executable(tests
+add_executable(duplicate
     duplicate.cpp)
 
 target_link_libraries(tests
