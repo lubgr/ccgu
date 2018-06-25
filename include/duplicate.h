@@ -64,15 +64,4 @@ template<class T> void duplicateInPlace3(std::vector<T>& v, unsigned n)
     std::sort(std::begin(v), std::end(v));
 }
 
-template<class T> void duplicateInPlace4(std::vector<T>& v, unsigned n)
-{
-    v.reserve(n*v.size());
-
-    for (auto it = std::begin(v); it != std::end(v);) {
-        it = v.insert(it, n - 1, *it);
-
-        it += n;
-    }
-}
-
 #endif
