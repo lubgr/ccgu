@@ -55,10 +55,10 @@ template<class T> void duplicateInPlace3(std::vector<T>& v, unsigned n)
 {
     const auto origSize = v.size();
 
-    for (unsigned i = 0; i < n - 1; ++i) {
-        auto origEnd = std::begin(v);
+    v.reserve(n*v.size());
 
-        std::advance(origEnd, origSize);
+    for (unsigned i = 0; i < n - 1; ++i) {
+        const auto origEnd = std::begin(v) + origSize;
 
         v.insert(std::end(v), std::begin(v), origEnd);
     }
