@@ -5,25 +5,28 @@
 #include "duplicate.h"
 
 namespace {
-    template<class Function, class T> void invokeAndCheck(Function&& f, const T& expected, T container, unsigned n)
-    {
-        using std::cbegin;
-        using std::cend;
-
-        auto orig = container;
-
-        f(orig, n);
-
-        BOOST_CHECK_EQUAL_COLLECTIONS(cbegin(expected), cend(expected), cbegin(orig), cend(orig));
-    }
-
-    template<template<class, class> class Container, class T, class Alloc>
-        void test(const Container<T, Alloc>& expected, Container<T, Alloc> input, unsigned n)
+    template<class Function, class Container>
+        void invokeAndCheck(Function&& f, const Container& expected, Container container, unsigned n)
         {
-            invokeAndCheck(duplicateInPlace1<T>, expected, input, n);
-            invokeAndCheck(duplicateInPlace2<T>, expected, input, n);
-            invokeAndCheck(duplicateInPlace3<T>, expected, input, n);
-            invokeAndCheck(duplicateInPlace4<T>, expected, input, n);
+            using std::cbegin;
+            using std::cend;
+
+            auto orig = container;
+
+            f(orig, n);
+
+            BOOST_CHECK_EQUAL_COLLECTIONS(cbegin(expected), cend(expected), cbegin(orig), cend(orig));
+        }
+
+    template<class Container>
+        void test(const Container& expected, Container input, unsigned n)
+        {
+            using value_type = typename Container::value_type;
+
+            invokeAndCheck(duplicateInPlace1<value_type>, expected, input, n);
+            invokeAndCheck(duplicateInPlace2<value_type>, expected, input, n);
+            invokeAndCheck(duplicateInPlace3<value_type>, expected, input, n);
+            invokeAndCheck(duplicateInPlace4<value_type>, expected, input, n);
         }
 }
 
