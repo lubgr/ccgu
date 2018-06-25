@@ -3,8 +3,6 @@
 
 #include <algorithm>
 #include <vector>
-#include <cassert>
-#include <type_traits>
 
 template<class Container> class Gen {
     public:
