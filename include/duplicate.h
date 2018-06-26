@@ -3,12 +3,15 @@
 
 #include <algorithm>
 #include <vector>
+#include <list>
 
 template<class Container> class Gen {
     public:
         Gen(Container vOrig, unsigned nCopies) : v(std::move(vOrig)), nCopies(nCopies)
     {
-        current = std::begin(v);
+        using std::begin;
+
+        current = begin(v);
     }
 
         auto operator()()
@@ -28,13 +31,34 @@ template<class Container> class Gen {
         typename Container::iterator current;
 };
 
-template<class T> void duplicateInPlace1(std::vector<T>& v, unsigned n)
+template<class Container> void duplicateInPlace1(Container& v, unsigned n)
 {
-    Gen<std::vector<T>> gen(v, n);
+    Gen<Container> gen(v, n);
+    using std::begin;
+    using std::end;
 
     v.resize(n*v.size());
 
-    std::generate(std::begin(v), std::end(v), gen);
+    std::generate(begin(v), end(v), gen);
+}
+
+namespace detail {
+    template<class Container> void duplicateInPlace2(Container& c, Container& result, unsigned n)
+    {
+        using std::cend;
+
+        for (const auto& i: c)
+            result.insert(cend(result), n, i);
+
+        c = std::move(result);
+    }
+}
+
+template<class T> void duplicateInPlace2(std::list<T>& v, unsigned n)
+{
+    std::list<T> result;
+
+    detail::duplicateInPlace2(v, result, n);
 }
 
 template<class T> void duplicateInPlace2(std::vector<T>& v, unsigned n)
@@ -43,25 +67,46 @@ template<class T> void duplicateInPlace2(std::vector<T>& v, unsigned n)
 
     result.reserve(n*v.size());
 
-    for (const auto& i: v)
-        result.insert(std::cend(result), n, i);
-
-    v = std::move(result);
+    detail::duplicateInPlace2(v, result, n);
 }
 
 template<class T> void duplicateInPlace3(std::vector<T>& v, unsigned n)
 {
     const auto origSize = v.size();
+    using std::begin;
+    using std::end;
 
     v.reserve(n*v.size());
 
-    for (unsigned i = 0; i < n - 1; ++i) {
-        const auto origEnd = std::begin(v) + origSize;
+    for (auto i = 0u; i < n - 1u; ++i) {
+        const auto origEnd = begin(v) + origSize;
 
-        v.insert(std::end(v), std::begin(v), origEnd);
+        v.insert(cend(v), begin(v), origEnd);
     }
 
-    std::sort(std::begin(v), std::end(v));
+    std::sort(begin(v), end(v));
+}
+
+template<class T> void duplicateInPlace3(std::list<T>& l, unsigned n)
+{
+    using std::begin;
+    using std::end;
+    const auto origBegin = begin(l);
+    const auto origSize = l.size();
+
+    l.insert(cend(l), origBegin, end(l));
+
+    if (n == 1u)
+        return;
+
+    auto origEnd = origBegin;
+
+    std::advance(origEnd, origSize);
+
+    for (auto i = 0u; i < n - 2u; ++i)
+        l.insert(cend(l), origBegin, origEnd);
+
+    l.sort();
 }
 
 #endif
