@@ -21,16 +21,13 @@ namespace {
     template<class Container>
         void test(const Container& expected, Container input, unsigned n)
         {
-            using value_type = typename Container::value_type;
-
-            invokeAndCheck(duplicateInPlace1<value_type>, expected, input, n);
-            invokeAndCheck(duplicateInPlace2<value_type>, expected, input, n);
-            invokeAndCheck(duplicateInPlace3<value_type>, expected, input, n);
-            invokeAndCheck(duplicateInPlace4<value_type>, expected, input, n);
+            invokeAndCheck<void(Container&, unsigned), Container>(duplicateInPlace1, expected, input, n);
+            invokeAndCheck<void(Container&, unsigned), Container>(duplicateInPlace2, expected, input, n);
+            invokeAndCheck<void(Container&, unsigned), Container>(duplicateInPlace3, expected, input, n);
         }
 }
 
-BOOST_AUTO_TEST_CASE(testDuplicateInPlace2)
+BOOST_AUTO_TEST_CASE(testDuplicateInPlaceVector5x2)
 {
     std::vector<int> ints{1, 3, 5, 5, 6};
     std::vector<int> expected{1, 1, 3, 3, 5, 5, 5, 5, 6, 6};
@@ -38,7 +35,7 @@ BOOST_AUTO_TEST_CASE(testDuplicateInPlace2)
     test(expected, ints, 2);
 }
 
-BOOST_AUTO_TEST_CASE(testDuplicateInPlace3)
+BOOST_AUTO_TEST_CASE(testDuplicateInPlaceVector3x3)
 {
     std::vector<int> ints{2, 4, 7};
     std::vector<int> expected{2, 2, 2, 4, 4, 4, 7, 7, 7};
@@ -46,7 +43,7 @@ BOOST_AUTO_TEST_CASE(testDuplicateInPlace3)
     test(expected, ints, 3);
 }
 
-BOOST_AUTO_TEST_CASE(testDuplicateInPlace5)
+BOOST_AUTO_TEST_CASE(testDuplicateInPlaceVector2x5)
 {
     std::vector<int> ints{1, 2};
     std::vector<int> expected{1, 1, 1, 1, 1, 2, 2, 2, 2, 2};
@@ -54,3 +51,18 @@ BOOST_AUTO_TEST_CASE(testDuplicateInPlace5)
     test(expected, ints, 5);
 }
 
+BOOST_AUTO_TEST_CASE(testDuplicateInPlaceList5x3)
+{
+    std::list<int> ints{1, 1, 4, 5, 8};
+    std::list<int> expected{1, 1, 1, 1, 1, 1, 4, 4, 4, 5, 5, 5, 8, 8, 8};
+
+    test(expected, ints, 3);
+}
+
+BOOST_AUTO_TEST_CASE(testDuplicateInPlaceList6x4)
+{
+    std::list<int> ints{0, 1, 2, 3, 4};
+    std::list<int> expected{0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4};
+
+    test(expected, ints, 4);
+}
