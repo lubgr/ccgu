@@ -9,9 +9,9 @@ void logResult(int id, double ms, unsigned nDuplicates, unsigned nGroups, unsign
     std::printf("[%u-%u-%u] version %d: %.3f ms\n", nDuplicates, nGroups, nGroupLengths, id, ms);
 }
 
-void measureSample(unsigned nDuplicates, unsigned nGroups, unsigned nGroupLengths)
+template<class Container> void measureSample(unsigned nDuplicates, unsigned nGroups, unsigned nGroupLengths)
 {
-    std::vector<int> vec;
+    Container vec;
     using std::end;
     using std::begin;
     int value = 0;
@@ -21,15 +21,15 @@ void measureSample(unsigned nDuplicates, unsigned nGroups, unsigned nGroupLength
 
     const auto orig = vec;
 
-    auto ms = measure(duplicateInPlace1<int>, vec, nDuplicates);
+    auto ms = measure<void(Container&, unsigned), Container>(duplicateInPlace1, vec, nDuplicates);
     logResult(1, ms, nDuplicates, nGroups, nGroupLengths);
 
     vec = orig;
-    ms = measure(duplicateInPlace2<int>, vec, nDuplicates);
+    ms = measure<void(Container&, unsigned), Container>(duplicateInPlace2, vec, nDuplicates);
     logResult(2, ms, nDuplicates, nGroups, nGroupLengths);
 
     vec = orig;
-    ms = measure(duplicateInPlace3<int>, vec, nDuplicates);
+    ms = measure<void(Container&, unsigned), Container>(duplicateInPlace3, vec, nDuplicates);
     logResult(3, ms, nDuplicates, nGroups, nGroupLengths);
 
     std::printf("\n");
@@ -45,8 +45,12 @@ int main(int, char**)
             for (const auto& nGroupLength : sizes)
                 if (nDuplicates == 1)
                     continue;
-                else if (nDuplicates*nGroups*nGroupLength == finalSize)
-                    measureSample(nDuplicates, nGroups, nGroupLength);
+                else if (nDuplicates*nGroups*nGroupLength == finalSize) {
+                    std::printf("std::vector<int>\n\n");
+                    measureSample<std::vector<int>>(nDuplicates, nGroups, nGroupLength);
+                    std::printf("std::list<int>\n\n");
+                    measureSample<std::list<int>>(nDuplicates, nGroups, nGroupLength);
+                }
 
     return 0;
 }
