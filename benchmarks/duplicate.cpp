@@ -48,8 +48,6 @@ int main(int, char**)
                 else if (nDuplicates*nGroups*nGroupLength == finalSize) {
                     std::printf("std::vector<int>\n\n");
                     measureSample<std::vector<int>>(nDuplicates, nGroups, nGroupLength);
-                    std::printf("std::list<int>\n\n");
-                    measureSample<std::list<int>>(nDuplicates, nGroups, nGroupLength);
                 }
 
     return 0;
