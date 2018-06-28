@@ -1,9 +1,9 @@
 
-add_executable(duplicate
+add_executable(test-duplicate
     duplicate.cpp)
 
-target_link_libraries(duplicate
+target_link_libraries(test-duplicate
     PRIVATE
-    cggu Boost::unit_test_framework)
+    cggu Catch2::Catch2)
 
-add_test(NAME cggu.tests COMMAND duplicate)
+add_test(NAME cggu.tests COMMAND test-duplicate)

@@ -1,8 +1,9 @@
 
-#define BOOST_TEST_MODULE duplicate
 #include <memory>
-#include <boost/test/included/unit_test.hpp>
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
 #include "duplicate.h"
+
 
 namespace {
     template<class Function, class Container>
@@ -15,7 +16,7 @@ namespace {
 
             f(orig, n);
 
-            BOOST_CHECK_EQUAL_COLLECTIONS(cbegin(expected), cend(expected), cbegin(orig), cend(orig));
+            REQUIRE(expected == orig);
         }
 
     template<class Container>
@@ -27,7 +28,7 @@ namespace {
         }
 }
 
-BOOST_AUTO_TEST_CASE(testDuplicateInPlaceVector5x2)
+TEST_CASE("testDuplicateInPlaceVector5x2")
 {
     std::vector<int> ints{1, 3, 5, 5, 6};
     std::vector<int> expected{1, 1, 3, 3, 5, 5, 5, 5, 6, 6};
@@ -35,7 +36,7 @@ BOOST_AUTO_TEST_CASE(testDuplicateInPlaceVector5x2)
     test(expected, ints, 2);
 }
 
-BOOST_AUTO_TEST_CASE(testDuplicateInPlaceVector3x3)
+TEST_CASE("testDuplicateInPlaceVector3x3")
 {
     std::vector<int> ints{2, 4, 7};
     std::vector<int> expected{2, 2, 2, 4, 4, 4, 7, 7, 7};
@@ -43,7 +44,7 @@ BOOST_AUTO_TEST_CASE(testDuplicateInPlaceVector3x3)
     test(expected, ints, 3);
 }
 
-BOOST_AUTO_TEST_CASE(testDuplicateInPlaceVector2x5)
+TEST_CASE("testDuplicateInPlaceVector2x5")
 {
     std::vector<int> ints{1, 2};
     std::vector<int> expected{1, 1, 1, 1, 1, 2, 2, 2, 2, 2};
@@ -51,7 +52,7 @@ BOOST_AUTO_TEST_CASE(testDuplicateInPlaceVector2x5)
     test(expected, ints, 5);
 }
 
-BOOST_AUTO_TEST_CASE(testDuplicateInPlaceList5x3)
+TEST_CASE("testDuplicateInPlaceList5x3")
 {
     std::list<int> ints{1, 1, 4, 5, 8};
     std::list<int> expected{1, 1, 1, 1, 1, 1, 4, 4, 4, 5, 5, 5, 8, 8, 8};
@@ -59,7 +60,7 @@ BOOST_AUTO_TEST_CASE(testDuplicateInPlaceList5x3)
     test(expected, ints, 3);
 }
 
-BOOST_AUTO_TEST_CASE(testDuplicateInPlaceList6x4)
+TEST_CASE("testDuplicateInPlaceList6x4")
 {
     std::list<int> ints{0, 1, 2, 3, 4};
     std::list<int> expected{0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4};
