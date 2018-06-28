@@ -1,0 +1,17 @@
+
+version: '{build}'
+
+os:
+    - Visual Studio 2017
+
+build_script:
+    - mkdir build-tests
+    - cd build-tests
+    - cmake -G "Visual Studio 15 2017 Win64" -D BUILD_TESTING=ON -D BUILD_BENCHMARKS=OFF ..
+    - cmake --build . --target tests --config Debug
+    - cd ..
+
+test_script:
+    - cd build-tests
+    - ctest -C Debug --output-on-failure
+    - cd ..

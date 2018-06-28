@@ -4,7 +4,8 @@ add_executable(test-duplicate
 
 target_compile_options(test-duplicate
     PRIVATE
-    -Wall -pedantic -Wsign-conversion -Wconversion)
+    $<$<OR:$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+    -Wall -pedantic -Wsign-conversion -Wconversion>)
 
 target_link_libraries(test-duplicate
     PRIVATE
