@@ -4,7 +4,7 @@ add_executable(duplicate
 
 target_compile_options(duplicate
     PRIVATE
-    $<$<CONFIG:Release>:-march=native -mtune=native>)
+    $<$<CONFIG:Release>:-march=native -mtune=native -Wall -pedantic -Wsign-conversion -Wconversion>)
 
 target_link_libraries(duplicate
     PRIVATE

@@ -72,9 +72,8 @@ template<class T> void duplicateInPlace2(std::vector<T>& v, unsigned n)
 
 template<class T> void duplicateInPlace3(std::vector<T>& v, unsigned n)
 {
-    const auto origSize = v.size();
-    using std::begin;
-    using std::end;
+    using difference_type = typename std::vector<T>::difference_type;
+    const auto origSize = static_cast<difference_type>(v.size());
 
     v.reserve(n*v.size());
 
@@ -89,10 +88,9 @@ template<class T> void duplicateInPlace3(std::vector<T>& v, unsigned n)
 
 template<class T> void duplicateInPlace3(std::list<T>& l, unsigned n)
 {
-    using std::begin;
-    using std::end;
     const auto origBegin = begin(l);
-    const auto origSize = l.size();
+    using difference_type = typename std::list<T>::difference_type;
+    const auto origSize = static_cast<difference_type>(l.size());
 
     l.insert(cend(l), origBegin, end(l));
 

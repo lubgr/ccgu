@@ -2,6 +2,10 @@
 add_executable(test-duplicate
     duplicate.cpp)
 
+target_compile_options(test-duplicate
+    PRIVATE
+    -Wall -pedantic -Wsign-conversion -Wconversion)
+
 target_link_libraries(test-duplicate
     PRIVATE
     cggu Catch2::Catch2)

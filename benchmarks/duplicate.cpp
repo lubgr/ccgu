@@ -14,7 +14,6 @@ template<class Container> void measureSample(unsigned nDuplicates, unsigned nGro
     Container vec;
     using std::end;
     using std::begin;
-    int value = 0;
 
     for (auto i = 0; i < static_cast<int>(nGroups); ++i)
         vec.insert(cend(vec), nGroupLengths, i + 1);
