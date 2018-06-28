@@ -31,6 +31,10 @@ template<class Container> void measureSample(unsigned nDuplicates, unsigned nGro
     ms = measure<void(Container&, unsigned), Container>(duplicateInPlace3, vec, nDuplicates);
     logResult(3, ms, nDuplicates, nGroups, nGroupLengths);
 
+    vec = orig;
+    ms = measure<void(Container&, unsigned), Container>(duplicateInPlace4, vec, nDuplicates);
+    logResult(4, ms, nDuplicates, nGroups, nGroupLengths);
+
     std::printf("\n");
 }
 
