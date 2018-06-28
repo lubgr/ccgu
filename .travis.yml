@@ -43,4 +43,4 @@ script:
   - cmake -D CMAKE_CXX_COMPILER=$COMPILER -D CMAKE_BUILD_TYPE=$MODE -D BUILD_TESTING=$TESTS -D BUILD_BENCHMARKS=$BENCHMARK ..
   - make VERBOSE=1
   - ctest --output-on-failure
-  - test -d benchmarks && find benchmarks -type f -executable -exec '{}' \;
+  - if [ -d benchmarks ]; then find benchmarks -type f -executable -exec '{}' \; ; fi

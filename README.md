@@ -1,5 +1,5 @@
 
-# ccgu: Cohesionless collection of generic utilities
+# ccgu: Cohesionless collection of generic utilities [![Build Status](https://travis-ci.org/lubgr/ccgu.svg)](https://travis-ci.org/lubgr/ccgu)
 
 This is a small gathering place for utility functions that were worth generalizing. Each utility is
 kept in one header file in the `include` directory. Benchmarks and unit test (using
