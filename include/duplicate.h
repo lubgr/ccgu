@@ -1,9 +1,7 @@
 #ifndef DUPLICATE_H
 #define DUPLICATE_H
 
-#include <algorithm>
 #include <vector>
-#include <list>
 
 namespace detail {
     template<class Container> void duplicate(Container& c, Container& result, unsigned n)
@@ -37,11 +35,11 @@ template<class T> void duplicate(std::vector<T>& v, unsigned n)
     detail::duplicate(v, result, n);
 }
 
-template<class T> void duplicate(std::list<T>& l, unsigned n)
+template<class Container> void duplicate(Container& c, unsigned n)
 {
-    std::list<T> result;
+    Container result;
 
-    detail::duplicate(l, result, n);
+    detail::duplicate(c, result, n);
 }
 
 #endif
