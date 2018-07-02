@@ -4,7 +4,9 @@
 #include <vector>
 
 namespace detail {
-    template<class Container> void duplicate(Container& c, Container& result, unsigned n)
+    template<class Container> void duplicate(Container&&, Container&, unsigned) = delete;
+
+    template<class Container> void duplicate(Container& c, Container&& result, unsigned n)
     {
         using std::begin;
         using std::end;
@@ -32,14 +34,14 @@ template<class T> void duplicate(std::vector<T>& v, unsigned n)
 
     result.reserve(n*v.size());
 
-    detail::duplicate(v, result, n);
+    detail::duplicate(v, std::move(result), n);
 }
 
 template<class Container> void duplicate(Container& c, unsigned n)
 {
     Container result;
 
-    detail::duplicate(c, result, n);
+    detail::duplicate(c, std::move(result), n);
 }
 
 #endif
