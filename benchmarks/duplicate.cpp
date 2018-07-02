@@ -5,9 +5,9 @@
 #include "duplicate.h"
 #include "duplicate-alternatives.h"
 
-void logResult(int id, double ms, unsigned nDuplicates, unsigned nGroups, unsigned nGroupLengths)
+void logResult(int id, long ms, unsigned nDuplicates, unsigned nGroups, unsigned nGroupLengths)
 {
-    std::printf("[%u-%u-%u] version %d: %.3f ms\n", nDuplicates, nGroups, nGroupLengths, id, ms);
+    std::printf("[%u-%u-%u] version %d: %li ms\n", nDuplicates, nGroups, nGroupLengths, id, ms);
 }
 
 template<class Container> void measureSample(unsigned nDuplicates, unsigned nGroups, unsigned nGroupLengths)

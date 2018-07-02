@@ -14,7 +14,7 @@ template<class Fct, class Container> auto measure(Fct&& f, Container& c, unsigne
 
     const auto duration = std::chrono::duration_cast<ms>(clock::now() - before);
 
-    return duration.count()/1000.0;
+    return duration.count();
 }
 
 #endif
