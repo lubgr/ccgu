@@ -1,6 +1,7 @@
 #ifndef DUPLICATE_ALTERNATIVES_H
 #define DUPLICATE_ALTERNATIVES_H
 
+#include <algorithm>
 #include <list>
 
 namespace detail {
