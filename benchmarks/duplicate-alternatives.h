@@ -1,6 +1,8 @@
 #ifndef DUPLICATE_ALTERNATIVES_H
 #define DUPLICATE_ALTERNATIVES_H
 
+#include <list>
+
 namespace detail {
     template<class Container> class Gen {
         public:
@@ -66,43 +68,6 @@ template<class T> void duplicateAlternative2(std::vector<T>& v, unsigned n)
     result.reserve(n*v.size());
 
     detail::duplicateAlternative2(v, result, n);
-}
-
-template<class T> void duplicateAlternative3(std::vector<T>& v, unsigned n)
-{
-    using difference_type = typename std::vector<T>::difference_type;
-    const auto origSize = static_cast<difference_type>(v.size());
-
-    v.reserve(n*v.size());
-
-    for (auto i = 0u; i < n - 1u; ++i) {
-        const auto origEnd = begin(v) + origSize;
-
-        v.insert(cend(v), begin(v), origEnd);
-    }
-
-    std::sort(begin(v), end(v));
-}
-
-template<class T> void duplicateAlternative3(std::list<T>& l, unsigned n)
-{
-    const auto origBegin = begin(l);
-    using difference_type = typename std::list<T>::difference_type;
-    const auto origSize = static_cast<difference_type>(l.size());
-
-    l.insert(cend(l), origBegin, end(l));
-
-    if (n == 1u)
-        return;
-
-    auto origEnd = origBegin;
-
-    std::advance(origEnd, origSize);
-
-    for (auto i = 0u; i < n - 2u; ++i)
-        l.insert(cend(l), origBegin, origEnd);
-
-    l.sort();
 }
 
 #endif
