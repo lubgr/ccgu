@@ -22,10 +22,7 @@ namespace {
     template<class Container>
         void test(const Container& expected, Container input, unsigned n)
         {
-            invokeAndCheck<void(Container&, unsigned), Container>(duplicateInPlace1, expected, input, n);
-            invokeAndCheck<void(Container&, unsigned), Container>(duplicateInPlace2, expected, input, n);
-            invokeAndCheck<void(Container&, unsigned), Container>(duplicateInPlace3, expected, input, n);
-            invokeAndCheck<void(Container&, unsigned), Container>(duplicateInPlace4, expected, input, n);
+            invokeAndCheck<void(Container&, unsigned), Container>(duplicate, expected, input, n);
         }
 }
 

@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "timemeasure.h"
 #include "duplicate.h"
+#include "duplicate-alternatives.h"
 
 void logResult(int id, double ms, unsigned nDuplicates, unsigned nGroups, unsigned nGroupLengths)
 {
@@ -11,28 +12,29 @@ void logResult(int id, double ms, unsigned nDuplicates, unsigned nGroups, unsign
 
 template<class Container> void measureSample(unsigned nDuplicates, unsigned nGroups, unsigned nGroupLengths)
 {
-    Container vec;
+    Container input;
     using std::end;
     using std::begin;
 
     for (auto i = 0; i < static_cast<int>(nGroups); ++i)
-        vec.insert(cend(vec), nGroupLengths, i + 1);
+        input.insert(cend(input), nGroupLengths, i + 1);
 
-    const auto orig = vec;
+    const auto orig = input;
 
-    auto ms = measure<void(Container&, unsigned), Container>(duplicateInPlace1, vec, nDuplicates);
+    auto vec = orig;
+    auto ms = measure<void(Container&, unsigned), Container>(duplicate, vec, nDuplicates);
     logResult(1, ms, nDuplicates, nGroups, nGroupLengths);
 
-    vec = orig;
-    ms = measure<void(Container&, unsigned), Container>(duplicateInPlace2, vec, nDuplicates);
+    auto vec1 = orig;
+    ms = measure<void(Container&, unsigned), Container>(duplicateAlternative1, vec1, nDuplicates);
     logResult(2, ms, nDuplicates, nGroups, nGroupLengths);
 
-    vec = orig;
-    ms = measure<void(Container&, unsigned), Container>(duplicateInPlace3, vec, nDuplicates);
+    auto vec2 = orig;
+    ms = measure<void(Container&, unsigned), Container>(duplicateAlternative2, vec2, nDuplicates);
     logResult(3, ms, nDuplicates, nGroups, nGroupLengths);
 
-    vec = orig;
-    ms = measure<void(Container&, unsigned), Container>(duplicateInPlace4, vec, nDuplicates);
+    auto vec3 = orig;
+    ms = measure<void(Container&, unsigned), Container>(duplicateAlternative3, vec3, nDuplicates);
     logResult(4, ms, nDuplicates, nGroups, nGroupLengths);
 
     std::printf("\n");
