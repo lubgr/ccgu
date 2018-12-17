@@ -4,7 +4,7 @@ add_library(cggu
 
 target_compile_features(cggu
     INTERFACE
-    cxx_std_14)
+    cxx_std_17)
 
 include(GNUInstallDirs)
 
